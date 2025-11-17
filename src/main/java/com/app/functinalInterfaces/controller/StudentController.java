@@ -39,6 +39,7 @@ public class StudentController {
     @PatchMapping("/{id}/decreaseFee")
     ResponseEntity<Student> decreaseFee(@PathVariable Long id, @RequestParam int amount) {
         return studentService.decreaseStudentFee(id, amount);
+
     }
 
     @PatchMapping("/{id}/increaseFeeWithPercent")
@@ -54,6 +55,7 @@ public class StudentController {
             return (int) updated;
         };
         return studentService.updateFee(id, policy);
+
     }
 
     @PatchMapping("/{id}/decreaseWithPercent")
@@ -74,8 +76,10 @@ public class StudentController {
     public ResponseEntity<Student> updateAddress(@PathVariable Long id, @RequestParam("value") String newAddress) {
         return studentService.updateStudent(id, s -> {
             s.setAddress(newAddress);
+            System.out.println("Added new method");
             return s;
         });
+
     }
 
     @GetMapping("/all")
