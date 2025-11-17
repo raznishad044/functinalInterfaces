@@ -2,6 +2,7 @@ package com.app.functinalInterfaces.services;
 
 import com.app.functinalInterfaces.Entity.Student;
 import com.app.functinalInterfaces.repository.StudentRepository;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -9,8 +10,11 @@ import java.util.List;
 import java.util.function.IntUnaryOperator;
 import java.util.function.UnaryOperator;
 
+import org.apache.catalina.connector.Response;
+
 @Service
 public class StudentService {
+
     private final StudentRepository studentRepository;
 
     public StudentService(StudentRepository studentRepository) {
@@ -21,10 +25,10 @@ public class StudentService {
         Student saved = studentRepository.save(student);
         return ResponseEntity.ok(saved);
     }
+
     /*
     increase fee using fixed amount using functional interface
      */
-
     public ResponseEntity<Student> increaseStudentFee(Long studentId, int amount) {
 
         if (amount <= 0) {
@@ -42,7 +46,6 @@ public class StudentService {
         IntUnaryOperator adjuster = fee -> Math.subtractExact(fee, amount);
         return updateFee(studentId, adjuster);
     }
-
 
     public ResponseEntity<Student> updateFee(Long studentId, IntUnaryOperator feePolicy) {
 
@@ -67,10 +70,13 @@ public class StudentService {
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    public ResponseEntity<List<Student>> getAllStudent(){
+    public ResponseEntity<List<Student>> getAllStudent() {
         return ResponseEntity.ok(studentRepository.findAll());
 
     }
 
+    public ResponseEntity<List<Student>> getStudentById(int id) {
+        return ResponseEntity.ok(studentRepository.findById(id));
+    }
 
 }
